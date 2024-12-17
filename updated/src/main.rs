@@ -1,18 +1,28 @@
-use actix_web::{web, App, HttpServer, HttpResponse, Responder};
+use actix_web::{App, HttpServer, web};
+use std::sync::Mutex;
+use crate::{config::Config, models::user::UserDB, routes::configure_routes};
 
-// A simple handler that returns a greeting message
-async fn greet() -> impl Responder {
-    HttpResponse::Ok().body("Hello, world!")
-}
+mod config;
+mod controllers;
+mod middlewares;
+mod models;
+mod routes;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Start the HTTP server
-    HttpServer::new(|| {
+    dotenv::dotenv().ok();
+    env_logger::init();
+
+    let user_db = web::Data::new(Mutex::new(UserDB::new()));
+    let config = web::Data::new(Config::from_env());
+
+    HttpServer::new(move || {
         App::new()
-            .route("/", web::get().to(greet))  // Route for the root URL
+            .app_data(user_db.clone())
+            .app_data(config.clone())
+            .configure(configure_routes)
     })
-    .bind("127.0.0.1:8080")?  // Bind to local IP and port 8080
+    .bind("127.0.0.1:8080")?
     .run()
     .await
 }
