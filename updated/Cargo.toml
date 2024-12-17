@@ -1,3 +1,8 @@
+[package]
+name = "my_app"
+version = "0.1.0"
+edition = "2021"
+
 [dependencies]
 actix-web = "4"
 actix-web-httpauth = "0.7"
@@ -8,5 +13,5 @@ tokio = { version = "1", features = ["full"] }
 dotenv = "0.15"
 env_logger = "0.10"
 uuid = { version = "1", features = ["v4"] }
-utoipa = { version = "3.4", features = ["actix-web"] }
-utoipa-swagger-ui = "3.4"
+utoipa = "3.5.0" # Latest stable version
+utoipa-swagger-ui = { version = "7.1.1-rc.0" } 
