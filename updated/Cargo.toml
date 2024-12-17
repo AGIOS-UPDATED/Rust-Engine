@@ -15,3 +15,6 @@ env_logger = "0.10"
 uuid = { version = "1", features = ["v4"] }
 utoipa = "3.5.0" # Latest stable version
 utoipa-swagger-ui = { version = "7.1.1-rc.0" } 
+rustc-serialize = "0.3"
+iron = "0.6"
+supabase = "0.0.0"
