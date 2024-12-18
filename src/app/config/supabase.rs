@@ -1,16 +1,9 @@
-use serde::Deserialize;
-use dotenv::dotenv;
-use std::env;
+use std::sync::Arc;
+use postgrest::Postgrest;
 
-#[derive(Deserialize)]
-pub struct SupabaseConfig {
-    pub url: String,
-    pub api_key: String,
-}
-
-impl SupabaseConfig {
-    pub fn new() -> Result<Self, envy::Error> {
-        dotenv().ok();
-        envy::from_env()
-    }
+pub fn init_supabase(url: &str, key: &str) -> Arc<Postgrest> {
+    let client = Postgrest::new(url)
+        .insert_header("apikey", key)
+        .insert_header("Authorization", format!("Bearer {}", key));
+    Arc::new(client)
 }

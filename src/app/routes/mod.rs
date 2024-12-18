@@ -1,7 +1,2 @@
-use actix_web::web;
-
-pub fn configure_routes(cfg: &mut web::ServiceConfig) {
-    cfg.service(
-        web::scope("/auth")
-    );
-}
+pub mod auth_route;
+pub mod rate_route;
